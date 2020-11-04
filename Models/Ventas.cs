@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Cobros_P2.Models
+namespace LuisR_P2_AP2.Models
 {
     public class Ventas
     {
