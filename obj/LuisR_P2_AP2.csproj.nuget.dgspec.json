@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {}
+    "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {}
   },
   "projects": {
-    "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {
+    "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
+        "projectUniqueName": "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
         "projectName": "LuisR_P2_AP2",
-        "projectPath": "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
+        "projectPath": "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
         "packagesPath": "C:\\Users\\Luis.rodriguez\\.nuget\\packages\\",
-        "outputPath": "C:\\Proyectos\\LuisR_P2_AP2\\obj\\",
+        "outputPath": "c:\\Proyectos\\LuisR_P2_AP2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -40,6 +40,18 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqLite": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
