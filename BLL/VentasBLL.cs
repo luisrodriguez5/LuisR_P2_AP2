@@ -29,5 +29,29 @@ namespace LuisR_P2_AP2.BLL
             }
             return Lista;
         }
+
+                public static Ventas Buscar(int id)
+        {
+            Contexto contexto = new Contexto();
+            Ventas ventas;
+
+            try
+            {
+                ventas = contexto.Ventas.Find(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+            return ventas;
+
+        }
+
+
     }
 }

@@ -56,16 +56,16 @@ namespace LuisR_P2_AP2.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<double>("Cobrado")
+                        .HasColumnType("REAL");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Observaciones")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("TotalCobrado")
-                        .HasColumnType("REAL");
-
-                    b.Property<int>("Totales")
+                    b.Property<int>("VentaId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CobroId");
@@ -75,9 +75,12 @@ namespace LuisR_P2_AP2.Migrations
 
             modelBuilder.Entity("LuisR_P2_AP2.Models.CobrosDetalle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CobroDetalleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<double>("Balance")
+                        .HasColumnType("REAL");
 
                     b.Property<double>("Cobrado")
                         .HasColumnType("REAL");
@@ -85,14 +88,18 @@ namespace LuisR_P2_AP2.Migrations
                     b.Property<int>("CobroId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Monto")
+                        .HasColumnType("REAL");
+
                     b.Property<int>("VentaId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("CobroDetalleId");
 
                     b.HasIndex("CobroId");
-
-                    b.HasIndex("VentaId");
 
                     b.ToTable("CobrosDetalle");
                 });
@@ -116,8 +123,6 @@ namespace LuisR_P2_AP2.Migrations
                         .HasColumnType("REAL");
 
                     b.HasKey("VentaId");
-
-                    b.HasIndex("ClienteId");
 
                     b.ToTable("Ventas");
 
@@ -174,24 +179,9 @@ namespace LuisR_P2_AP2.Migrations
 
             modelBuilder.Entity("LuisR_P2_AP2.Models.CobrosDetalle", b =>
                 {
-                    b.HasOne("LuisR_P2_AP2.Models.Cobros", "Cobro")
-                        .WithMany("Detalle")
+                    b.HasOne("LuisR_P2_AP2.Models.Cobros", null)
+                        .WithMany("CobrosDetalle")
                         .HasForeignKey("CobroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LuisR_P2_AP2.Models.Ventas", "Venta")
-                        .WithMany("Detalle")
-                        .HasForeignKey("VentaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LuisR_P2_AP2.Models.Ventas", b =>
-                {
-                    b.HasOne("LuisR_P2_AP2.Models.Clientes", "Cliente")
-                        .WithMany("venta")
-                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

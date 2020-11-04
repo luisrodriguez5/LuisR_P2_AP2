@@ -60,22 +60,51 @@ namespace LuisR_P2_AP2.BLL
             return Insertado;
         }
 
-        private static bool Modificar(Cobros cobro)
+        private static bool Modificar(Cobros cobros)
         {
-            bool Modificado = false;
+            bool paso = false;
+            var Anterior = Buscar(cobros.CobroId);
             Contexto contexto = new Contexto();
 
             try
             {
-                contexto.Database.ExecuteSqlRaw($"Delete FROM CobrosDetalle Where CobroId = {cobro.CobroId}");
-
-                foreach (var item in cobro.Detalle)
+                //aqui borro del detalle y disminuyo 
+                foreach (var item in Anterior.CobrosDetalle)
                 {
-                    contexto.Entry(item).State = EntityState.Added;
+                    var auxVenta = contexto.Ventas.Find(item.VentaId);
+                    if (!cobros.CobrosDetalle.Exists(d => d.CobroDetalleId == item.CobroDetalleId))
+                    {
+                        if (auxVenta != null)
+                        {
+                            auxVenta.Balance -= item.Balance;
+                        }
+
+                        contexto.Entry(item).State = EntityState.Deleted;
+                    }
+
                 }
 
-                contexto.Entry(cobro).State = EntityState.Modified;
-                Modificado = (contexto.SaveChanges() > 0);
+                //aqui agrego lo nuevo al detalle
+                foreach (var item in cobros.CobrosDetalle)
+                {
+                    var auxVenta = contexto.Ventas.Find(item.VentaId);
+                    if (item.CobroDetalleId == 0)
+                    {
+                        contexto.Entry(item).State = EntityState.Added;
+                        if (auxVenta != null)
+                        {
+                            auxVenta.Balance += item.Balance;
+                        }
+
+                    }
+                    else
+                        contexto.Entry(item).State = EntityState.Modified;
+                }
+
+
+                contexto.Entry(cobros).State = EntityState.Modified;
+                paso = contexto.SaveChanges() > 0;
+
             }
             catch (Exception)
             {
@@ -85,7 +114,7 @@ namespace LuisR_P2_AP2.BLL
             {
                 contexto.Dispose();
             }
-            return Modificado;
+            return paso;
         }
 
         public static bool Eliminar(int id)
@@ -114,25 +143,24 @@ namespace LuisR_P2_AP2.BLL
 
         public static Cobros Buscar(int id)
         {
-            Cobros cobro = new Cobros();
             Contexto contexto = new Contexto();
+            Cobros cobros; 
 
             try
             {
-                cobro = contexto.Cobros
-                    .Where(e => e.CobroId == id)
-                    .Include(e => e.Detalle)
-                    .FirstOrDefault();
+                cobros = contexto.Cobros.Where(o => o.CobroId == id).Include(d => d.CobrosDetalle).FirstOrDefault();
             }
             catch (Exception)
             {
+
                 throw;
             }
             finally
             {
                 contexto.Dispose();
             }
-            return cobro;
+            return cobros;
+
         }
 
         public static List<Cobros> GetList(Expression<Func<Cobros, bool>> cobro)
