@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {}
+    "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {}
   },
   "projects": {
-    "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {
+    "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
+        "projectUniqueName": "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
         "projectName": "LuisR_P2_AP2",
-        "projectPath": "c:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
+        "projectPath": "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
         "packagesPath": "C:\\Users\\Luis.rodriguez\\.nuget\\packages\\",
-        "outputPath": "c:\\Proyectos\\LuisR_P2_AP2\\obj\\",
+        "outputPath": "C:\\Proyectos\\LuisR_P2_AP2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

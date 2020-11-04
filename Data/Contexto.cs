@@ -12,7 +12,7 @@ namespace LuisR_P2_AP2.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source = Data/Ventas.db");
+            optionsBuilder.UseSqlite(@"Data Source = Data/Cobros.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
