@@ -11,54 +11,49 @@ namespace LuisR_P2_AP2.BLL
 {
     public class CobrosBLL
     {
-        public static bool Guardar(Cobros cobro)
+                public static bool Guardar(Cobros cobros)
         {
-            if (!Existe(cobro.CobroId))
-                return Insertar(cobro);
+            if (!Existe(cobros.CobroId))//si no existe insertamos
+                return Insertar(cobros);
             else
-                return Modificar(cobro);
+                return Modificar(cobros);
+
         }
 
-        private static bool Existe(int id)
+        private static bool Insertar(Cobros cobros)
         {
-            bool Existencia = false;
+            bool paso = false;
             Contexto contexto = new Contexto();
 
             try
             {
-                Existencia = contexto.Cobros.Any(x => x.CobroId == id);
+
+                foreach (var item in cobros.CobrosDetalle)
+                {
+                    
+                    var auxCobro = contexto.Ventas.Find(item.VentaId);
+                    if (auxCobro != null)
+                    {
+                        auxCobro.Balance -= item.Cobrado;
+                    }
+                }
+                
+                contexto.Cobros.Add(cobros);
+                paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
             {
+
                 throw;
+
             }
             finally
             {
                 contexto.Dispose();
             }
-            return Existencia;
+            return paso;
         }
 
-        private static bool Insertar(Cobros cobro)
-        {
-            bool Insertado = false;
-            Contexto contexto = new Contexto();
-
-            try
-            {
-                contexto.Cobros.Add(cobro);
-                Insertado = (contexto.SaveChanges() > 0);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
-            return Insertado;
-        }
 
         private static bool Modificar(Cobros cobros)
         {
@@ -119,16 +114,33 @@ namespace LuisR_P2_AP2.BLL
 
         public static bool Eliminar(int id)
         {
-            bool Eliminado = false;
+            bool paso = false;
+            var Anterior = Buscar(id);
             Contexto contexto = new Contexto();
 
             try
             {
-                var cobro = Buscar(id);
+                if (Existe(id))
+                {
+                    
+                    foreach (var item in Anterior.CobrosDetalle)
+                    {
+                        var auxVenta = contexto.Ventas.Find(item.VentaId);
+                        if (auxVenta != null)
+                        {
+                            auxVenta.Balance = item.Balance;
+                        }
+                    }
 
-                contexto.Entry(cobro).State = EntityState.Deleted;
-                Eliminado = (contexto.SaveChanges() > 0);
-
+                    //aqui remueve la entidad
+                    var auxCobro = contexto.Cobros.Find(id);
+                    if (auxCobro != null)
+                    {
+                        contexto.Cobros.Remove(auxCobro);
+                        paso = contexto.SaveChanges() > 0;
+                    }
+                }
+               
             }
             catch (Exception)
             {
@@ -138,7 +150,7 @@ namespace LuisR_P2_AP2.BLL
             {
                 contexto.Dispose();
             }
-            return Eliminado;
+            return paso;
         }
 
         public static Cobros Buscar(int id)
@@ -163,14 +175,37 @@ namespace LuisR_P2_AP2.BLL
 
         }
 
-        public static List<Cobros> GetList(Expression<Func<Cobros, bool>> cobro)
+        public static List<Cobros> GetList(Expression<Func<Cobros, bool>> expression)
         {
-            List<Cobros> Lista = new List<Cobros>();
-            Contexto contexto = new Contexto();
+            List<Cobros> lista = new List<Cobros>();
+            Contexto db = new Contexto();
 
             try
             {
-                Lista = contexto.Cobros.Where(cobro).ToList();
+                lista = db.Cobros.Where(expression).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return lista;
+        }
+
+        public static bool Existe(int id)
+        {
+            Contexto contexto = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = contexto.Cobros.Any(o => o.CobroId == id);
+
             }
             catch (Exception)
             {
@@ -180,7 +215,10 @@ namespace LuisR_P2_AP2.BLL
             {
                 contexto.Dispose();
             }
-            return Lista;
+
+            return encontrado;
+
         }
+
     }
 }

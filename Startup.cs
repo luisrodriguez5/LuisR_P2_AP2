@@ -28,7 +28,6 @@ namespace LuisR_P2_AP2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-           
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddBlazoredToast();

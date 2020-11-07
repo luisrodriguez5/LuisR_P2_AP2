@@ -98,8 +98,9 @@
                                         <td>@item.Monto</td>
                                         <td>@item.Balance</td>
                                         <td>@item.Cobrado</td>
-                                        <td><input type="checkbox" name="casilla" value="item.Cobrado"class="form-check" ></td>
+                                        <td><input type="checkbox" @onchange="@(() => Cobrar(item))"></td>
                                         <td><button type="button" class="btn btn-outline-danger" @onclick="(() => EliminarCobrosDetalle(item))">Remover</button></td>
+                                
                                     </tr>
                                 }
 
@@ -160,9 +161,9 @@
     List<Ventas> listaVentas = new List<Ventas>();
     List<Clientes> listaClientes = new List<Clientes>();
     
-    public double encontrarmonto { get; set; }
-    public double encontrarbalance { get; set; }
-    public DateTime encontrarfecha { get; set; }
+    public double Monto_F { get; set; }
+    public double Balance_F { get; set; }
+    public DateTime Fecha_F { get; set; }
 
 
     protected override void OnInitialized()
@@ -170,9 +171,9 @@
         Nuevo();
         if (CobroId > 0)
         {
-            var auxCobro = CobrosBLL.Buscar(CobroId);
-            if (auxCobro != null)
-                this.cobros = auxCobro;
+            var _cobro = CobrosBLL.Buscar(CobroId);
+            if (_cobro != null)
+                this.cobros = _cobro;
             else
                 toast.ShowWarning("No encontrado.");
         }
@@ -197,9 +198,9 @@
     private void Nuevo()
     {
         this.cobros = new Cobros();
-        encontrarmonto=0;
-        encontrarfecha=DateTime.Now;
-        encontrarbalance=0;
+        Monto_F=0;
+        Fecha_F=DateTime.Now;
+        Balance_F=0;
         
     }
 
@@ -210,15 +211,15 @@
             this.cobros.CobrosDetalle.Add(new CobrosDetalle
             {
                 CobroDetalleId = 0,
-                Fecha= encontrarfecha,
-                Monto=encontrarmonto,
-                Balance=encontrarbalance,
-                Cobrado = encontrarbalance
+                Fecha= Fecha_F,
+                Monto=Monto_F,
+                Balance=Balance_F,
+                Cobrado = Balance_F
                 
             });
-        encontrarmonto=0;
-        encontrarfecha=DateTime.Now;
-        encontrarbalance=0; 
+        Monto_F=0;
+        Fecha_F=DateTime.Now;
+        Balance_F=0; 
 
         
         CalcularTotal();
@@ -227,14 +228,14 @@
 
     private void Get()
     {
-        var auxMonto = VentasBLL.Buscar(cobros.VentaId);
-        var auxBalance = VentasBLL.Buscar(cobros.VentaId);
-        var auxFecha = VentasBLL.Buscar(cobros.VentaId);
-        if (auxFecha != null & auxMonto != null & auxBalance != null )
+        var monto = VentasBLL.Buscar(cobros.VentaId);
+        var balance = VentasBLL.Buscar(cobros.VentaId);
+        var fecha = VentasBLL.Buscar(cobros.VentaId);
+        if (fecha != null & monto != null & balance != null )
         {
-            encontrarfecha =auxFecha.Fecha;
-            encontrarmonto = auxMonto.Monto;
-            encontrarbalance = auxBalance.Balance;
+            Fecha_F =fecha.Fecha;
+            Monto_F = monto.Monto;
+            Balance_F = balance.Balance;
         }
 
     }
@@ -298,6 +299,13 @@
             }
         }
 
+    }
+
+    private void Cobrar(CobrosDetalle detalle)
+    {
+        var item = VentasBLL.Buscar(cobros.VentaId);
+        detalle.Cobrado = item.Balance;
+        CalcularTotal();
     }
 
     private void Eliminar()

@@ -1415,25 +1415,29 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Blazored.Toast >= 3.1.2",
+      "Blazored.Toast >= *",
       "Microsoft.EntityFrameworkCore.SqLite >= 3.1.9",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.9"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+    "C:\\Users\\Luis.rodriguez\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Proyecto\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
+      "projectUniqueName": "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
       "projectName": "LuisR_P2_AP2",
-      "projectPath": "C:\\Proyecto\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Proyecto\\LuisR_P2_AP2\\obj\\",
+      "projectPath": "C:\\Proyectos\\LuisR_P2_AP2\\LuisR_P2_AP2.csproj",
+      "packagesPath": "C:\\Users\\Luis.rodriguez\\.nuget\\packages\\",
+      "outputPath": "C:\\Proyectos\\LuisR_P2_AP2\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Luis.rodriguez\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1459,7 +1463,7 @@
         "dependencies": {
           "Blazored.Toast": {
             "target": "Package",
-            "version": "[3.1.2, )"
+            "version": "[*, )"
           },
           "Microsoft.EntityFrameworkCore.SqLite": {
             "target": "Package",

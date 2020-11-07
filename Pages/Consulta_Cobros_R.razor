@@ -1,0 +1,210 @@
+@page "/consultaC"
+@using LuisR_P2_AP2.Models
+@using LuisR_P2_AP2.BLL
+
+@inject IToastService toast
+
+
+<div class="card">
+
+        <div class="card-header">
+            <h3>Consulta de Cobros</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="input-group">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Criterio" @bind="criterio" />
+                        </div>
+
+                        <div class="col">
+                            <select class="form-control" @bind="filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Id</option>
+                                <option value="2">Fecha</option>
+                                <option value="3">Cobrado</option>
+                                <option value="4">ClienteId</option>
+                                <option value="5">VentaId</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>ClienteId</th>
+                    <th>VentaId</th>
+                    <th>Cobrado</th>
+                    <th>Observaciones</th>
+                    <th>  </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@item.CobroId</td>
+                        <td>@item.Fecha</td>
+                        <td>@item.ClienteId</td>
+                        <td>@item.VentaId</td>
+                        <td>@item.Cobrado</td>
+                        <td>@item.Observaciones</td>
+                        <a href="/cobro/@item.CobroId">VER</a>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+</div>
+
+
+@code {
+
+    public int filtro { get; set; }
+    public string criterio { get; set; }
+    public List<Cobros> lista = new List<Cobros>();
+
+
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (filtro)
+            {
+                case 0: //Todos
+                    this.lista = CobrosBLL.GetList(p => true);
+                    break;
+                case 1: //Id
+                    int ID = GetId();
+                    this.lista = CobrosBLL.GetList(p => p.CobroId == ID);
+                    break;
+                case 2: //Fecha
+                    DateTime fecha = GetFecha(); 
+                    this.lista = CobrosBLL.GetList(p => p.Fecha == fecha);
+                    break;
+                case 3: //Cobrado
+                    double cobrado = GetCobrado();
+                    this.lista = CobrosBLL.GetList(p => p.Cobrado == cobrado);
+                    break;
+                case 4: //ClienteId
+                    int clienteId = GetClienteId();
+                    this.lista = CobrosBLL.GetList(p => p.ClienteId == clienteId);
+                    break;
+                case 5://VentaId
+                    int ventaId = GetVentaId();
+                    this.lista = CobrosBLL.GetList(p => p.VentaId == ventaId);
+                    break;
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+    private int GetId()
+    {
+        int resultado = 0;
+
+        try
+        {
+            resultado = Convert.ToInt32(criterio);
+            return resultado;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("El Id debe ser numerico..");
+        }
+
+        return resultado;
+    }
+
+    private DateTime GetFecha()
+    {
+        DateTime fecha= DateTime.Now;
+        try
+        {
+            fecha = Convert.ToDateTime(criterio);
+            return fecha;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("La fecha debe ser numerico..");
+        }
+
+        return fecha;
+    }
+
+    private double GetCobrado()
+    {
+        double cobrado = 0;
+
+        try
+        {
+            cobrado = Convert.ToDouble(criterio);
+            return cobrado;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("La cobrado debe ser numerico..");
+        }
+
+        return cobrado;
+    }
+
+    private int GetClienteId()
+    {
+        int clienteId = 0;
+
+        try
+        {
+            clienteId = Convert.ToInt32(criterio);
+            return clienteId;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("El ClienteId debe ser numerico..");
+        }
+
+        return clienteId;
+    }
+
+    private int GetVentaId()
+    {
+        int ventaId = 0;
+
+        try
+        {
+            ventaId = Convert.ToInt32(criterio);
+            return ventaId;
+        }
+        catch (Exception)
+        {
+
+            toast.ShowError("El ventaId debe ser numerico..");
+        }
+
+        return ventaId;
+    }
+
+}
